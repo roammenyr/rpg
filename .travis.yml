@@ -1,4 +1,11 @@
 language: node_js
 node_js:
-    - "stable"
-    - "iojs"
+- stable
+- iojs
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZCFiXyYIkPhbEsCajtVZWu8yIqbkiVlyIh7q+ObK/aVET1+MjBYzorkmhdYOfvx9aWAjpWlCjVP1FXlk/4mcnpCZzWFnZ17Yx4p9aLYb4h3IKBa4cDTGc958jBZSOYZWWTlOzW5steiZYpY15cO/w1tljpRbouKVX1w09qfXfE1qDxeyW2XT9dtgWYrRikpJty2YC2dUwcFX3q60OQ+lDVUjTnPFrZ1i6b/GB4v+OT0Cb72WMl1cwI0PLhGC+lj515V8elbp3qEnCX4ARgmdTIp34DOSLoO8wX+xm4wVJFjtKq25lFcrnL3eT/sGn/KUS7w4If+T60GbTXTz32zdnv6C896SjkquinGyz8Vdz7LhCwR5jNnenYO/f8wKjQh8rndJE/tiMbCTsSDWkF9lZa3pkzNwQ1E0lBwiDUuBwD9MrIYqRD0GS9LjtKV6RCG1GpMv9a8maohhkSvkxbFz9f1SDSwNr99DTv4vY7JZKNKL9Omgs+ny093F+PSOLDc2gqkbUKKYrte0kF41XyiNEMf1rBU5fpZpE8YDkX/vbjMxQlYJryfg0PIa9lAsfdvH6n/2FD9JZHXAbv3u85d2CxHOPwPunpAln1C8C14TCsVwPwQ7B6DfG/p7ZrLqKnlBS4rmVZUHxpiqu98Ht6WLzDy46Mqx3PrJukVOr1DeXUE=
+  app: roammenyr
+  on:
+    repo: roammenyr/rpg
