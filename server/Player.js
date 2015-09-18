@@ -1,18 +1,21 @@
+"use strict";
+
+const utils = require("./utils");
+
 class Player {
 
-	constructor(){
-
+	constructor(socket, name) {
+		this.socket = socket;
+		this.name = name;
 		this.x = 0;
 		this.y = 0;
-
 		this.speed = 5;
-
 		this.destination = null;
+		this.nextDirections = [];
 	}
 
-	isMoving(){ 
-
-		return !!this.destination; 
+	isMoving() {
+		return !!this.destination;
 	}
 
 	setDestination(directions) {
@@ -25,7 +28,7 @@ class Player {
 			directions: directions,
 			movingX: directions[0] === "left" || directions[0] === "right",
 			movingY: directions[0] === "up"   || directions[0] === "down" ,
-			direction: Game.directionToInt(directions[0])
+			direction: utils.directionToInt(directions[0])
 		};
 
 		switch (directions[0]) {
@@ -53,3 +56,5 @@ class Player {
 			this.destination = null;
 	}
 }
+
+module.exports = Player;

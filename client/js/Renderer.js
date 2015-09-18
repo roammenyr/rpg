@@ -1,3 +1,5 @@
+"use strict";
+
 class Renderer {
 
 	constructor(model){
@@ -9,9 +11,8 @@ class Renderer {
 		this.player;
 
 		this.squareSize = 50;
-
 	}
-	
+
 
 	buildGridOverlay() {
 		var grid = new createjs.Shape();
@@ -28,7 +29,7 @@ class Renderer {
 
 	init() {
 		var canvas = document.getElementById("gameCanvas");
-		canvas.width = this.model.world.width * this.squareSize;
+		canvas.width  = this.model.world.width * this.squareSize;
 		canvas.height = this.model.world.height * this.squareSize;
 
 		this.stage = new createjs.Stage("gameCanvas");
@@ -47,14 +48,18 @@ class Renderer {
 			images: [imgPerso1],
 			frames: { width: 50, height: 85, regX: 0, regY: 0 },
 			animations: {
-				standUp: [12, 12],
-				standDown: [0, 0],
-				standLeft: [4, 4],
+				standUp   : [12, 12],
+				standDown : [0, 0],
+				standLeft : [4, 4],
 				standRight: [8, 8],
-				up: [13, 15, "standUp", 0.2 * this.model.player.speed],
-				down: [1, 3, "standDown", 0.2 * this.model.player.speed],
-				right: [9, 11, "standRight", 0.2 * this.model.player.speed],
-				left: [5, 7, "standLeft", 0.2 * this.model.player.speed]
+				// up   : [13, 15, "standUp"   , 0.2 * this.model.player.speed],
+				// down : [1 , 3 , "standDown" , 0.2 * this.model.player.speed],
+				// right: [9 , 11, "standRight", 0.2 * this.model.player.speed],
+				// left : [5 , 7 , "standLeft" , 0.2 * this.model.player.speed]
+				up   : [13, 15, "standUp"   , 0.2 * 5],
+				down : [1 , 3 , "standDown" , 0.2 * 5],
+				right: [9 , 11, "standRight", 0.2 * 5],
+				left : [5 , 7 , "standLeft" , 0.2 * 5]
 			},
 			framerate: 20
 		});
@@ -82,7 +87,6 @@ class Renderer {
 		for (var i = 0; i < this.model.map.layer2.length; i++) {
 			this.drawTile(this.model.map.layer2[i], i, mapSheet);
 		};
-
 	}
 
 	drawTile(element, index, mapSheet){
