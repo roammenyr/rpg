@@ -12,33 +12,25 @@ class Game {
 	}
 
 	gameLoop(e) {
-		console.log("gameloop begin");
 		const currentTime = createjs.Ticker.getTime();
 		const delta = currentTime - self.lastTick;
 		self.lastTick = currentTime;
 
 		self.sendUserCommands();
-		console.log("gameloop end");
-	}
-
-	update(state) {
-		console.log("update begin");
-		this.model.update(state);
-		this.renderer.render();
-		console.log("update end");
+		self.model.update(self.state);
+		self.renderer.render(e);
 	}
 
 	sendUserCommands() {
-		console.log("send ", Input.directions());
-		ws.emit("move", Input.directions());
+		let directions = Input.directions();
+		console.log("send directions", JSON.stringify(directions));
+		this.ws.emit("move", directions);
 	}
 
 	run() {
-		console.log("run begin");
 		Input.setUpKeyBindings();
 		this.renderer.init();
 		createjs.Ticker.setFPS(60);
 		createjs.Ticker.addEventListener("tick", this.gameLoop);
-		console.log("run end");
 	}
 }

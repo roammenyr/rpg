@@ -3,7 +3,6 @@
 class Renderer {
 
 	constructor(model){
-
 		this.model = model;
 		this.stage;
 		this.background;
@@ -71,7 +70,7 @@ class Renderer {
 		this.stage.addChild(this.player);
 	}
 
-	drawMap(){
+	drawMap() {
 		var imgMap = new Image();
 		imgMap.src = "img/tilesets/" + this.model.map.tileset;
 
@@ -89,7 +88,7 @@ class Renderer {
 		};
 	}
 
-	drawTile(element, index, mapSheet){
+	drawTile(element, index, mapSheet) {
 			var tileSprite = new createjs.Sprite(mapSheet);
 			tileSprite.gotoAndStop(element);
 
@@ -101,19 +100,25 @@ class Renderer {
 	}
 
 	movePlayer() {
-		if (!this.player.isMoving && this.model.player.isMoving()) {
+		console.log("BEFORE MOVE");
+		if (!this.player.isMoving && this.model.player.isMoving) {
+			console.log("rendered player is not moving but model one is.");
 			this.player.isMoving = true;
 			this.player.origX = this.player.x;
 			this.player.origY = this.player.y;
-			this.player.gotoAndPlay(this.model.player.destination.directions[0]);
-		} else if (this.player.isMoving && !this.model.player.isMoving()) {
+			this.player.gotoAndPlay(this.model.player.direction);
+		} else if (this.player.isMoving && !this.model.player.isMoving) {
+			console.log("rendered player is moving but model one is not");
 			this.player.isMoving = false;
 		}
 
 		if (this.player.isMoving) {
+			console.log("move player, before x=", this.player.x, "y=", this.player.y);
 			this.player.x = this.model.player.x * this.squareSize;
 			this.player.y = this.model.player.y * this.squareSize;
+			console.log("player moved, after x=", this.player.x, "y=", this.player.y);
 		}
+		console.log("AFTER MOVE");
 	}
 
 	render(e) {

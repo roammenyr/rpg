@@ -1,6 +1,8 @@
 "use strict";
 
-const createjs = require('createjs');
+require('node-easel');
+
+let self = null;
 
 class State {
 
@@ -11,8 +13,9 @@ class State {
 			width : 27,
 			height: 12
 		};
+		self = this;
 	}
-	
+
 	addPlayer(player) {
 		this.players.set(player.name, player);
 	}
@@ -23,22 +26,28 @@ class State {
 
 	update() {
 		const currentTime = createjs.Ticker.getTime();
-		const delta = currentTime - this.lastTick;
-		this.lastTick = currentTime;
-		
-		// for (let [name, player] of this.players) {
-		this.players.forEach(function(name, player) {
+		const delta = currentTime - self.lastTick;
+		self.lastTick = currentTime;
+
+		self.players.forEach(function(player, name) {
+			console.log("player is moving = ", player.isMoving());
+			console.log("player nextdirections = ", player.nextDirections);
 			if (!player.isMoving() && player.nextDirections.length > 0)
 				player.setDestination(player.nextDirections);
-
+			console.log("   => player is moving = ", player.isMoving());
 			player.move(delta);
 
-			if (player.x >= this.world.width ) player.x = 0;
-			if (player.y >= this.world.height) player.y = 0;
-			if (player.x < 0) player.x = this.world.width  - 1;
-			if (player.y < 0) player.y = this.world.height - 1;	
+			if (player.x >= self.world.width ) player.x = 0;
+			if (player.y >= self.world.height) player.y = 0;
+			if (player.x < 0) player.x = self.world.width  - 1;
+			if (player.y < 0) player.y = self.world.height - 1;
 		});
-		this.ws.emit("update", this);
+		self.ws.emit("update", self.state());
+	}
+
+	state() {
+		console.log("send ", Array.from(this.players.values(), player => player.state()));
+		return Array.from(this.players.values(), player => player.state());
 	}
 
 	run() {

@@ -30,13 +30,14 @@ ws.on('connection', function(socket) {
 		fn("logged in");
 	});
 
-	socket.on("move", directions => {
-		console.log("move to ", directions.toString());
+	socket.on("move", function(directions) {
+		console.log("received directions", JSON.stringify(directions));
 		socket.player.nextDirections = directions;
 	});
 
 });
 
+state.run();
 ws.listen(WS_PORT);
 
 app.use(livereload({ port: LIVERELOAD_PORT }));

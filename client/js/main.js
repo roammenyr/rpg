@@ -5,15 +5,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
 	let game = null;
 
-	console.log("before login");
 	ws.emit("login", `roammenyr${Math.random()}`, () => {
-		console.log("call login");
  		game = new Game();
+		game.ws = ws;
 		game.run();
-		console.log("call end");
 	});
-	console.log("end");
 
-	ws.on("update", state => game.update(state));
+	ws.on("update", state => { if (game) game.state = state });
 
 });

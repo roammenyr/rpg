@@ -2,9 +2,11 @@
 
 class Character {
 
-	constructor(name, x, y) {
+	constructor(name, x, y, isMoving, direction) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.isMoving = isMoving;
+		this.direction = direction;
 	}
 }

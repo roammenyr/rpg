@@ -12,8 +12,12 @@ class Model {
 	}
 
 	update(state) {
-		this.characters = state.players.map(
-			player => new Character(player.name, player.x, player.y));
+		console.log("update from ", JSON.stringify(state));
+		this.characters = state.map(
+			player => new Character(player.name, player.x, player.y, player.isMoving, player.directions[0]));
 		this.player = this.characters[0];
+		if (this.player.isMoving) {
+			console.log("SHOULD MOVE");
+		}
 	}
 }

@@ -41,6 +41,7 @@ class Player {
 
 	move(delta) {
 		if (!this.isMoving()) return;
+		console.log("move before x=", this.x, "y=", this.y);
 		var destination = this.destination;
 
 		destination.progress += delta / 1000 * this.speed;
@@ -54,6 +55,18 @@ class Player {
 
 		if (destination.progress === 1)
 			this.destination = null;
+
+		console.log("move after x=", this.x, "y=", this.y);
+	}
+
+	state() {
+		return {
+			name: this.name,
+			x: this.x,
+			y: this.y,
+			isMoving: this.isMoving(),
+			directions: this.nextDirections
+		};
 	}
 }
 
