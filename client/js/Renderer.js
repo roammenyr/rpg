@@ -1,7 +1,8 @@
+"use strict";
+
 class Renderer {
 
 	constructor(model){
-
 		this.model = model;
 		this.stage;
 		this.background;
@@ -9,9 +10,8 @@ class Renderer {
 		this.player;
 
 		this.squareSize = 50;
-
 	}
-	
+
 
 	buildGridOverlay() {
 		var grid = new createjs.Shape();
@@ -28,7 +28,7 @@ class Renderer {
 
 	init() {
 		var canvas = document.getElementById("gameCanvas");
-		canvas.width = this.model.world.width * this.squareSize;
+		canvas.width  = this.model.world.width * this.squareSize;
 		canvas.height = this.model.world.height * this.squareSize;
 
 		this.stage = new createjs.Stage("gameCanvas");
@@ -47,14 +47,18 @@ class Renderer {
 			images: [imgPerso1],
 			frames: { width: 50, height: 85, regX: 0, regY: 0 },
 			animations: {
-				standUp: [12, 12],
-				standDown: [0, 0],
-				standLeft: [4, 4],
+				standUp   : [12, 12],
+				standDown : [0, 0],
+				standLeft : [4, 4],
 				standRight: [8, 8],
-				up: [13, 15, "standUp", 0.2 * this.model.player.speed],
-				down: [1, 3, "standDown", 0.2 * this.model.player.speed],
-				right: [9, 11, "standRight", 0.2 * this.model.player.speed],
-				left: [5, 7, "standLeft", 0.2 * this.model.player.speed]
+				// up   : [13, 15, "standUp"   , 0.2 * this.model.player.speed],
+				// down : [1 , 3 , "standDown" , 0.2 * this.model.player.speed],
+				// right: [9 , 11, "standRight", 0.2 * this.model.player.speed],
+				// left : [5 , 7 , "standLeft" , 0.2 * this.model.player.speed]
+				up   : [13, 15, "standUp"   , 0.2 * 5],
+				down : [1 , 3 , "standDown" , 0.2 * 5],
+				right: [9 , 11, "standRight", 0.2 * 5],
+				left : [5 , 7 , "standLeft" , 0.2 * 5]
 			},
 			framerate: 20
 		});
@@ -66,7 +70,7 @@ class Renderer {
 		this.stage.addChild(this.player);
 	}
 
-	drawMap(){
+	drawMap() {
 		var imgMap = new Image();
 		imgMap.src = "img/tilesets/" + this.model.map.tileset;
 
@@ -82,10 +86,9 @@ class Renderer {
 		for (var i = 0; i < this.model.map.layer2.length; i++) {
 			this.drawTile(this.model.map.layer2[i], i, mapSheet);
 		};
-
 	}
 
-	drawTile(element, index, mapSheet){
+	drawTile(element, index, mapSheet) {
 			var tileSprite = new createjs.Sprite(mapSheet);
 			tileSprite.gotoAndStop(element);
 
@@ -97,19 +100,25 @@ class Renderer {
 	}
 
 	movePlayer() {
-		if (!this.player.isMoving && this.model.player.isMoving()) {
+		console.log("BEFORE MOVE");
+		if (!this.player.isMoving && this.model.player.isMoving) {
+			console.log("rendered player is not moving but model one is.");
 			this.player.isMoving = true;
 			this.player.origX = this.player.x;
 			this.player.origY = this.player.y;
-			this.player.gotoAndPlay(this.model.player.destination.directions[0]);
-		} else if (this.player.isMoving && !this.model.player.isMoving()) {
+			this.player.gotoAndPlay(this.model.player.direction);
+		} else if (this.player.isMoving && !this.model.player.isMoving) {
+			console.log("rendered player is moving but model one is not");
 			this.player.isMoving = false;
 		}
 
 		if (this.player.isMoving) {
+			console.log("move player, before x=", this.player.x, "y=", this.player.y);
 			this.player.x = this.model.player.x * this.squareSize;
 			this.player.y = this.model.player.y * this.squareSize;
+			console.log("player moved, after x=", this.player.x, "y=", this.player.y);
 		}
+		console.log("AFTER MOVE");
 	}
 
 	render(e) {
