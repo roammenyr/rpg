@@ -1,8 +1,6 @@
 "use strict";
 
-require('node-easel');
-
-let self = null;
+let state;
 
 class State {
 
@@ -13,7 +11,7 @@ class State {
 			width : 27,
 			height: 12
 		};
-		self = this;
+		state = this;
 	}
 
 	addPlayer(player) {
@@ -25,24 +23,24 @@ class State {
 	}
 
 	update() {
-		const currentTime = createjs.Ticker.getTime();
-		const delta = currentTime - self.lastTick;
-		self.lastTick = currentTime;
+		const currentTime = new Date().getTime();
+		const delta = currentTime - this.lastTick;
+		this.lastTick = currentTime;
 
-		self.players.forEach(function(player, name) {
+		this.players.forEach((player, name) => {
 			console.log("player is moving = ", player.isMoving());
 			console.log("player nextdirections = ", player.nextDirections);
 			if (!player.isMoving() && player.nextDirections.length > 0)
 				player.setDestination(player.nextDirections);
-			console.log("   => player is moving = ", player.isMoving());
+			console.log("    => player is moving = ", player.isMoving());
 			player.move(delta);
 
-			if (player.x >= self.world.width ) player.x = 0;
-			if (player.y >= self.world.height) player.y = 0;
-			if (player.x < 0) player.x = self.world.width  - 1;
-			if (player.y < 0) player.y = self.world.height - 1;
+			if (player.x >= this.world.width ) player.x = 0;
+			if (player.y >= this.world.height) player.y = 0;
+			if (player.x < 0) player.x = this.world.width  - 1;
+			if (player.y < 0) player.y = this.world.height - 1;
 		});
-		self.ws.emit("update", self.state());
+		this.ws.emit("update", this.state());
 	}
 
 	state() {
@@ -51,8 +49,9 @@ class State {
 	}
 
 	run() {
-		createjs.Ticker.setFPS(60);
-		createjs.Ticker.addEventListener("tick", this.update);
+		setInterval(() => {
+			if (state) state.update()
+		}, 1000/60);
 	}
 }
 
